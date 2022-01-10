@@ -162,8 +162,10 @@ let country_code = {
 
 const dropList = document.querySelectorAll(".drop-menu select");
 
-const myButton = document.getElementsByTagName("button");
-console.log(myButton);
+const myButton = document.querySelector(".wrapper button");
+
+fromCurrency = document.querySelector(".from select");
+toCurrency = document.querySelector(".to select");
 for(let i = 0; i < dropList.length; i++) {
   for(curr in country_code) {
     let selected;
@@ -176,4 +178,25 @@ for(let i = 0; i < dropList.length; i++) {
     let optionTag = `<option value="${curr}"${selected}>${curr}</option>`
     dropList[i].insertAdjacentHTML("beforeend", optionTag);
   }
+}
+myButton.addEventListener("click", function(e) {
+  e.preventDefault();
+  getExchangeRate();
+});
+
+function getExchangeRate() {
+  const amount = document.querySelector("input");
+  let amountVal = amount.value;
+  if(amountVal.length == 0 || amountVal == 0) {
+    amount.value = 1;
+    amountVal = 1;
+  }
+  const apiKey = "0d06b738559ff2ff6ccabf82";
+  let url = `https://v6.exchangerate-api.com/v6/${apiKey}/latest/${fromCurrency.value}`;
+  fetch(url).then(response => response.json()).then(result => {
+    let exchangeRate = result.conversion_rates[toCurrency.value];
+    let totalExchangeRate = (amountVal * exchangeRate).toFixed(2);
+    const exchangeRateTxt = document.querySelector('.exchange-rate');
+    exchangeRateTxt.innerText = `${amountVal} ${fromCurrency.value} = ${totalExchangeRate} ${toCurrency.value}`;
+  })
 }
