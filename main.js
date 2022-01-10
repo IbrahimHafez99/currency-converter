@@ -162,6 +162,8 @@ let country_code = {
 
 const dropList = document.querySelectorAll(".drop-menu select");
 
+const myButton = document.getElementsByTagName("button");
+console.log(myButton);
 for(let i = 0; i < dropList.length; i++) {
   for(curr in country_code) {
     let selected;
