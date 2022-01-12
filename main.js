@@ -164,6 +164,8 @@ const dropList = document.querySelectorAll(".drop-menu select");
 
 const myButton = document.querySelector(".wrapper button");
 
+const myform = document.querySelector('form');
+
 fromCurrency = document.querySelector(".from select");
 toCurrency = document.querySelector(".to select");
 for(let i = 0; i < dropList.length; i++) {
@@ -187,14 +189,18 @@ function wait(ms){
   }
 }
 
-window.addEventListener("load", function() {
-  getExchangeRate();
-});
+// window.addEventListener("load", function(e) {
+//   e.preventDefault();
+//   getExchangeRate();
+// });
 myButton.addEventListener("click", function(e) {
   e.preventDefault();
   getExchangeRate();
 });
 
+myform.addEventListener("submit", function(e) {
+  e.preventDefault();
+})
 function getExchangeRate() {
   const amount = document.querySelector("input"),
   exchangeRateTxt = document.querySelector('.exchange-rate');
