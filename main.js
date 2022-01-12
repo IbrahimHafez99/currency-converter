@@ -179,24 +179,38 @@ for(let i = 0; i < dropList.length; i++) {
     dropList[i].insertAdjacentHTML("beforeend", optionTag);
   }
 }
+function wait(ms){
+  var start = new Date().getTime();
+  var end = start;
+  while(end < start + ms) {
+    end = new Date().getTime();
+  }
+}
+
+window.addEventListener("load", function() {
+  getExchangeRate();
+});
 myButton.addEventListener("click", function(e) {
   e.preventDefault();
   getExchangeRate();
 });
 
 function getExchangeRate() {
-  const amount = document.querySelector("input");
+  const amount = document.querySelector("input"),
+  exchangeRateTxt = document.querySelector('.exchange-rate');
+
   let amountVal = amount.value;
   if(amountVal.length == 0 || amountVal == 0) {
     amount.value = 1;
     amountVal = 1;
   }
+  exchangeRateTxt.innerText = "Getting Exchange Rate ..."
   const apiKey = "0d06b738559ff2ff6ccabf82";
   let url = `https://v6.exchangerate-api.com/v6/${apiKey}/latest/${fromCurrency.value}`;
   fetch(url).then(response => response.json()).then(result => {
     let exchangeRate = result.conversion_rates[toCurrency.value];
     let totalExchangeRate = (amountVal * exchangeRate).toFixed(2);
-    const exchangeRateTxt = document.querySelector('.exchange-rate');
-    exchangeRateTxt.innerText = `${amountVal} ${fromCurrency.value} = ${totalExchangeRate} ${toCurrency.value}`;
+    wait(500);
+    exchangeRateTxt.innerText = `${amountVal} ${fromCurrency.value} = ${totalExchangeRate} ${toCurrency.value} \n Conversion Rate = ${exchangeRate.toFixed(2)}`;
   })
 }
