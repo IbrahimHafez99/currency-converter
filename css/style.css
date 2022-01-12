@@ -69,6 +69,17 @@ p {
 }
 .drop-menu i {
   margin-bottom: 15px;
+  position: relative;
+}
+.drop-menu i::after {
+  content: "Swap";
+  position: absolute;
+  bottom: -100%;
+  left: -12px;
+  font-size: 12px;
+}
+.drop-menu i:hover {
+  cursor: pointer;
 }
 .drop-menu select {
   text-align: center;

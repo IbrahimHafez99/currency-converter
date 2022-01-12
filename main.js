@@ -160,15 +160,22 @@ let country_code = {
   "ZWD" : "ZW"
 }
 
+function wait(ms){
+  var start = new Date().getTime();
+  var end = start;
+  while(end < start + ms) {
+    end = new Date().getTime();
+  }
+}
+
 const dropList = document.querySelectorAll(".drop-menu select");
-
 const myButton = document.querySelector(".wrapper button");
-
 const myform = document.querySelector('form');
+const fromCurrency = document.querySelector(".from select");
+const toCurrency = document.querySelector(".to select");
+const icon = document.querySelector('.drop-menu i');
 
-fromCurrency = document.querySelector(".from select");
-toCurrency = document.querySelector(".to select");
-for(let i = 0; i < dropList.length; i++) {
+for(var i = 0; i < dropList.length; i++) {
   for(curr in country_code) {
     let selected;
     if(i == 0) {
@@ -181,26 +188,21 @@ for(let i = 0; i < dropList.length; i++) {
     dropList[i].insertAdjacentHTML("beforeend", optionTag);
   }
 }
-function wait(ms){
-  var start = new Date().getTime();
-  var end = start;
-  while(end < start + ms) {
-    end = new Date().getTime();
-  }
-}
-
-// window.addEventListener("load", function(e) {
-//   e.preventDefault();
-//   getExchangeRate();
-// });
-myButton.addEventListener("click", function(e) {
-  e.preventDefault();
-  getExchangeRate();
-});
 
 myform.addEventListener("submit", function(e) {
   e.preventDefault();
-})
+});
+
+icon.addEventListener('click', function() {
+  var temp = fromCurrency.value;
+  fromCurrency.value = toCurrency.value;
+  toCurrency.value = temp;
+});
+
+myButton.addEventListener("click", function() {
+  getExchangeRate();
+});
+
 function getExchangeRate() {
   const amount = document.querySelector("input"),
   exchangeRateTxt = document.querySelector('.exchange-rate');
@@ -210,6 +212,8 @@ function getExchangeRate() {
     amount.value = 1;
     amountVal = 1;
   }
+  
+
   exchangeRateTxt.innerText = "Getting Exchange Rate ..."
   const apiKey = "0d06b738559ff2ff6ccabf82";
   let url = `https://v6.exchangerate-api.com/v6/${apiKey}/latest/${fromCurrency.value}`;
@@ -220,3 +224,4 @@ function getExchangeRate() {
     exchangeRateTxt.innerText = `${amountVal} ${fromCurrency.value} = ${totalExchangeRate} ${toCurrency.value} \n Conversion Rate = ${exchangeRate.toFixed(2)}`;
   })
 }
+
