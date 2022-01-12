@@ -221,7 +221,7 @@ function getExchangeRate() {
     let exchangeRate = result.conversion_rates[toCurrency.value];
     let totalExchangeRate = (amountVal * exchangeRate).toFixed(2);
     wait(500);
-    exchangeRateTxt.innerText = `${amountVal} ${fromCurrency.value} = ${totalExchangeRate} ${toCurrency.value} \n Conversion Rate = ${exchangeRate.toFixed(2)}`;
+    exchangeRateTxt.innerText = `${amountVal} ${fromCurrency.value} = ${totalExchangeRate} ${toCurrency.value}`;
   })
 }
 
