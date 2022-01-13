@@ -208,7 +208,7 @@ function getExchangeRate() {
   exchangeRateTxt = document.querySelector('.exchange-rate');
 
   let amountVal = amount.value;
-  if(amountVal.length == 0 || amountVal == 0) {
+  if(amountVal.length == 0 || amountVal <= 0) {
     amount.value = 1;
     amountVal = 1;
   }
